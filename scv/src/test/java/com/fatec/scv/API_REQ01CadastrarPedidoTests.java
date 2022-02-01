@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class API_REQ01CadastrarProdutoTests {
+class API_REQ01CadastrarPedidoTests {
 
 	Logger logger = LogManager.getLogger(this.getClass());
 	String urlBase = "/api/v1/pedidos";
@@ -34,7 +34,7 @@ class API_REQ01CadastrarProdutoTests {
 				+ "{\"produto\":{\"produto_id\": 1},\"quantidade\": 20},"
 				+ "{\"produto\":{\"produto_id\": 3},\"quantidade\": 10}] }";
 		
-		logger.info(">>>>>> caso de teste pedidoString criado  ");
+		logger.info(">>>>>> caso de teste - setup de dados pedidoString criado  ");
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<String> httpEntity = new HttpEntity<String>(pedidoString, headers);

@@ -46,13 +46,13 @@ class REQ01CadastrarPedidoTests {
 		System.out.println("data de emissao do pedido=>" + pedidoRetornado.getDataEmissao());
 		assertEquals (250.0 , pedidoRetornado.getValorTotal());
 		assertTrue(pedidoRepository.findByCpf("99504993052").size()>=1);
-		pedido1 = new Pedido("63628494699");
+	
 	}
 	@Test
-	void ct02_quando_cpf_valido_sem_pedido_cadastrado_entao_retorna_vazio() {
+	void ct02_quando_cpf_valido_nao_cadastrado_entao_retorna_vazio() {
 		// cliente cadastrado 99504993052 - test fixture
 		// cliente cadastrado 43011831084
-		Pedido pedido1 = new Pedido("63628494699");
+		Pedido pedido1 = new Pedido("63628494699"); //cpf nao cadastrado no db de cliente
 		
 		Optional<Produto> umProduto = produtoRepository.findById(1L);
 		Produto produtoComprado1 = umProduto.get();

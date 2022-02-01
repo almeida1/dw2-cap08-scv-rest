@@ -30,35 +30,30 @@ class REQ02ConsultarPedidoTests {
 
 	@Test
 	@Transactional
-	void ct01_quando_cpf_tem_venda_cadastrada_consulta_retorna_detalhes_do_pedido() {
+	void ct01_quando_id_tem_venda_cadastrada_consulta_retorna_detalhes_do_pedido() {
 
 		Pedido pedido1 = new Pedido("99504993052");
 
-		Optional<Produto> umProduto = produtoRepository.findById(1L);
+		Optional<Produto> umProduto = produtoRepository.findById(1L); //R$ 10
 		Produto produtoComprado1 = umProduto.get();
-		umProduto = produtoRepository.findById(3L);
+		umProduto = produtoRepository.findById(3L);                   //R$ 5
 		Produto produtoComprado2 = umProduto.get();
 
-		ItemDePedido ip1 = new ItemDePedido(produtoComprado1, 20); // quantidade comprada
-		ItemDePedido ip2 = new ItemDePedido(produtoComprado2, 10); // quantidade comprada
+		ItemDePedido ip1 = new ItemDePedido(produtoComprado1, 20); // quantidade comprada = R$200
+		ItemDePedido ip2 = new ItemDePedido(produtoComprado2, 10); // quantidade comprada = R$50
 		pedido1.getItens().addAll(Arrays.asList(ip1, ip2)); // pedido1 comprou parafuso e bucha
-		Pedido pedidoRetornado = pedidoServico.cadastrarPedido(pedido1);
-		assertTrue(pedidoRepository.findByCpf("99504993052").size() >= 1);
-		List<Pedido> pedidos = pedidoRepository.findByCpf("99504993052");
-		pedidoRetornado = pedidos.get(0);
-		assertEquals(250.0, pedidoRetornado.getValorTotal());
-		List<ItemDePedido> itens = pedidoRetornado.getItens();
+		
+		Optional<Pedido> umPedido = pedidoServico.buscaPorId(pedidoServico.cadastrarPedido(pedido1).getId());
+		assertTrue(umPedido.isPresent());
+		assertEquals(250.0, umPedido.get().getValorTotal());
+		List<ItemDePedido> lista = umPedido.get().getItens();
 
-		List<ItemDePedido> lista = new ArrayList<>();
-		for (ItemDePedido i : itens) {
-			lista.add(i);
-		}
 		double soma = 0;
 		for (ItemDePedido i : lista) {
 			System.out.println(i.getId());
 			soma = soma + i.getSubTotal();
 		}
-		assertEquals(250.0, soma);
+		assertEquals(250, soma);
 	}
 	@Test
 	void ct02_quando_cpf_valido_nao_tem_venda_cadastrada_consulta_retorna_vazio() {

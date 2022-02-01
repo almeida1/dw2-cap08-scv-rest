@@ -24,9 +24,11 @@ public class APIPedidoController {
 	Logger logger = LogManager.getLogger(this.getClass());
 	@PostMapping
 	public ResponseEntity<Pedido> insert(@Valid @RequestBody Pedido pedido) {
+		logger.info(">>>>>> 1. controller chamou servico cadastrar pedido  " );
+		logger.info(">>>>>> itens de pedido id 0 =>  " + pedido.getItens().get(0).getId() );
 		ResponseEntity<Pedido> response = null;
 		Pedido umPedido = servico.cadastrarPedido(pedido);
-		logger.info(">>>>>> 1. controller chamou servico cadastrar pedido  " );
+		
 		if(umPedido != null) {
 			logger.info(">>>>>> controller pedido criado " );
 			response = ResponseEntity.status(HttpStatus.CREATED).body(umPedido);
