@@ -33,6 +33,7 @@ import com.fatec.scv.matemPedidos.ports.PedidoServico;
 import com.fatec.scv.matemPedidos.ports.ProdutoRepository;
 
 @Service
+//@Transactional
 public class PedidoServicoI implements PedidoServico {
 	Logger logger = LogManager.getLogger(this.getClass());
 	@Autowired
@@ -118,7 +119,7 @@ public class PedidoServicoI implements PedidoServico {
 			return null;
 		}
 	}
-
+	@Override
 	public boolean isCadastrado(String cpf) {
 		RestTemplate restTemplate = new RestTemplate();
 		// envia o JSon de login do usuario
@@ -129,7 +130,7 @@ public class PedidoServicoI implements PedidoServico {
 		try {
 			resposta1 = restTemplate.exchange("https://dw-scc-rest.herokuapp.com/login", HttpMethod.POST, httpEntity,
 					String.class);
-			logger.info(">>>>>> servico isCadastrado login " + resposta1.getStatusCode().toString());
+			logger.info(">>>>>> servico cliente isCadastrado login " + resposta1.getStatusCode().toString());
 			HttpHeaders headers = resposta1.getHeaders();
 			
 			HttpEntity<Cliente> httpEntity2 = new HttpEntity<Cliente>(headers);

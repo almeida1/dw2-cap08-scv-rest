@@ -27,10 +27,15 @@ class REQ02ConsultarPedidoTests {
 	private PedidoServico pedidoServico;
 	@Autowired
 	private ProdutoRepository produtoRepository;
-
+	
+	@Test
+	void ct01_quando_consulta_cpf_cadastrado_retorna_todos_pedidos_cadastrados_para_o_cpf() {
+		List <Pedido> lista = pedidoServico.buscaPorCpf("99504993052");
+		assertEquals(1,lista.size());
+	}
 	@Test
 	@Transactional
-	void ct01_quando_id_tem_venda_cadastrada_consulta_retorna_detalhes_do_pedido() {
+	void ct02_quando_id_tem_venda_cadastrada_consulta_retorna_detalhes_do_pedido() {
 
 		Pedido pedido1 = new Pedido("99504993052");
 
@@ -42,7 +47,7 @@ class REQ02ConsultarPedidoTests {
 		ItemDePedido ip1 = new ItemDePedido(produtoComprado1, 20); // quantidade comprada = R$200
 		ItemDePedido ip2 = new ItemDePedido(produtoComprado2, 10); // quantidade comprada = R$50
 		pedido1.getItens().addAll(Arrays.asList(ip1, ip2)); // pedido1 comprou parafuso e bucha
-		
+		//cadastra um pedido para um cpf ja cadastrado.
 		Optional<Pedido> umPedido = pedidoServico.buscaPorId(pedidoServico.cadastrarPedido(pedido1).getId());
 		assertTrue(umPedido.isPresent());
 		assertEquals(250.0, umPedido.get().getValorTotal());
@@ -56,11 +61,11 @@ class REQ02ConsultarPedidoTests {
 		assertEquals(250, soma);
 	}
 	@Test
-	void ct02_quando_cpf_valido_nao_tem_venda_cadastrada_consulta_retorna_vazio() {
+	void ct03_quando_cpf_valido_nao_tem_venda_cadastrada_consulta_retorna_vazio() {
 		assertTrue(pedidoRepository.findByCpf("81380757320").isEmpty());
 	}
 	@Test
-	void ct03_quando_cpf_invalido_consulta_retorna_vazio() {
+	void ct04_quando_cpf_invalido_consulta_retorna_vazio() {
 		assertTrue(pedidoRepository.findByCpf("813807573").isEmpty());
 	}
 }
