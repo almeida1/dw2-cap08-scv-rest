@@ -33,8 +33,8 @@ public class APIPedidoController {
 			logger.info(">>>>>> controller pedido criado " );
 			response = ResponseEntity.status(HttpStatus.CREATED).body(umPedido);
 		} else {
-			logger.info(">>>>>> controller - cliente nao encontrado =" + pedido.getCpf());
-			response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+			logger.info(">>>>>> controller - requisicao invalida =" + pedido.getCpf());
+			response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		return response;
 	}
